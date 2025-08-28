@@ -124,42 +124,44 @@ const hasChildren = processedLink.children && processedLink.children.length > 0;
 		const dropdowns = document.querySelectorAll('[data-dropdown]');
 		
 		dropdowns.forEach(dropdown => {
-			const trigger = dropdown.querySelector('[data-dropdown-trigger]');
-			const menu = dropdown.querySelector('[data-dropdown-menu]');
+			const trigger = dropdown.querySelector('[data-dropdown-trigger]') as HTMLElement;
+			const menu = dropdown.querySelector('[data-dropdown-menu]') as HTMLElement;
 			const items = dropdown.querySelectorAll('.dropdown-item');
 			
 			if (!trigger || !menu) return;
 			
 			// 键盘事件处理
 			trigger.addEventListener('keydown', function(e) {
-				if (e.key === 'Enter' || e.key === ' ') {
-					e.preventDefault();
-					toggleDropdown(dropdown, trigger, menu);
-				} else if (e.key === 'ArrowDown') {
-					e.preventDefault();
-					openDropdown(dropdown, trigger, menu);
+				const event = e as KeyboardEvent; // 添加类型断言
+				if (event.key === 'Enter' || event.key === ' ') {
+					event.preventDefault();
+					toggleDropdown(trigger, menu);
+				} else if (event.key === 'ArrowDown') {
+					event.preventDefault();
+					openDropdown(trigger, menu);
 					if (items.length > 0) {
-						items[0].focus();
+						(items[0] as HTMLElement).focus(); // 添加类型断言
 					}
-				} else if (e.key === 'Escape') {
-					closeDropdown(dropdown, trigger, menu);
+				} else if (event.key === 'Escape') {
+					closeDropdown(trigger, menu);
 				}
 			});
 			
 			// 菜单项键盘导航
 			items.forEach((item, index) => {
 				item.addEventListener('keydown', function(e) {
-					if (e.key === 'ArrowDown') {
-						e.preventDefault();
+					const event = e as KeyboardEvent; // 添加类型断言
+					if (event.key === 'ArrowDown') {
+						event.preventDefault();
 						const nextIndex = (index + 1) % items.length;
-						items[nextIndex].focus();
-					} else if (e.key === 'ArrowUp') {
-						e.preventDefault();
+						(items[nextIndex] as HTMLElement).focus(); // 添加类型断言
+					} else if (event.key === 'ArrowUp') {
+						event.preventDefault();
 						const prevIndex = (index - 1 + items.length) % items.length;
-						items[prevIndex].focus();
-					} else if (e.key === 'Escape') {
-						closeDropdown(dropdown, trigger, menu);
-						trigger.focus();
+						(items[prevIndex] as HTMLElement).focus(); // 添加类型断言
+					} else if (event.key === 'Escape') {
+						closeDropdown(trigger, menu);
+						(trigger as HTMLElement).focus(); // 添加类型断言
 					}
 				});
 			});
@@ -168,33 +170,33 @@ const hasChildren = processedLink.children && processedLink.children.length > 0;
 		// 点击外部关闭下拉菜单
 		document.addEventListener('click', function(e) {
 			dropdowns.forEach(dropdown => {
-				if (!dropdown.contains(e.target)) {
-					const trigger = dropdown.querySelector('[data-dropdown-trigger]');
-					const menu = dropdown.querySelector('[data-dropdown-menu]');
+				if (e.target && !dropdown.contains(e.target as Node)) {
+					const trigger = dropdown.querySelector('[data-dropdown-trigger]') as HTMLElement;
+					const menu = dropdown.querySelector('[data-dropdown-menu]') as HTMLElement;
 					if (trigger && menu) {
-						closeDropdown(dropdown, trigger, menu);
+						closeDropdown(trigger, menu);
 					}
 				}
 			});
 		});
 	});
 	
-	function toggleDropdown(dropdown, trigger, menu) {
+	function toggleDropdown(trigger: HTMLElement, menu: HTMLElement) {
 		const isOpen = trigger.getAttribute('aria-expanded') === 'true';
 		if (isOpen) {
-			closeDropdown(dropdown, trigger, menu);
+			closeDropdown(trigger, menu);
 		} else {
-			openDropdown(dropdown, trigger, menu);
+			openDropdown(trigger, menu);
 		}
 	}
 	
-	function openDropdown(dropdown, trigger, menu) {
+	function openDropdown(trigger: HTMLElement, menu: HTMLElement) {
 		trigger.setAttribute('aria-expanded', 'true');
 		menu.classList.remove('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-[-8px]');
 		menu.classList.add('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
 	}
 	
-	function closeDropdown(dropdown, trigger, menu) {
+	function closeDropdown(trigger: HTMLElement, menu: HTMLElement) {
 		trigger.setAttribute('aria-expanded', 'false');
 		menu.classList.add('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-[-8px]');
 		menu.classList.remove('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');

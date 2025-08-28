@@ -2,8 +2,8 @@
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
-import { Icon } from "astro-icon/components";
 import { formatDateI18n } from "@utils/date-utils";
+import { Icon } from "astro-icon/components";
 
 // 相册数据 - 直接在服务端定义
 const galleryData = {
@@ -58,7 +58,7 @@ const totalImages = galleryData.data.reduce(
 				<div class="bg-[var(--card-bg)] border border-[var(--line-divider)] rounded-[var(--radius-large)] p-4 hover:bg-[var(--btn-card-bg-hover)] transition-colors">
 					<div class="flex items-center justify-between">
 						<div>
-							<p class="text-[var(--content-meta)] text-sm">{i18n(I18nKey.galleryTotalGroups)}</p>
+							<p class="text-[var(--content-meta)] text-sm">{i18n(I18nKey.galleryGroups)}</p>
 							<p class="text-2xl font-bold text-[var(--deep-text)] dark:text-white">{galleryData.data.length}</p>
 						</div>
 						<Icon name="material-symbols:photo-library" class="w-8 h-8 text-[var(--primary)]" />
@@ -67,7 +67,7 @@ const totalImages = galleryData.data.reduce(
 				<div class="bg-[var(--card-bg)] border border-[var(--line-divider)] rounded-[var(--radius-large)] p-4 hover:bg-[var(--btn-card-bg-hover)] transition-colors">
 					<div class="flex items-center justify-between">
 						<div>
-							<p class="text-[var(--content-meta)] text-sm">{i18n(I18nKey.galleryTotalImages)}</p>
+							<p class="text-[var(--content-meta)] text-sm">{i18n(I18nKey.galleryNoImages)}</p>
 							<p class="text-2xl font-bold text-[var(--deep-text)] dark:text-white">{totalImages}</p>
 						</div>
 						<Icon name="material-symbols:image" class="w-8 h-8 text-[var(--primary)]" />
@@ -76,7 +76,7 @@ const totalImages = galleryData.data.reduce(
 				<div class="bg-[var(--card-bg)] border border-[var(--line-divider)] rounded-[var(--radius-large)] p-4 hover:bg-[var(--btn-card-bg-hover)] transition-colors">
 					<div class="flex items-center justify-between">
 						<div>
-							<p class="text-[var(--content-meta)] text-sm">{i18n(I18nKey.galleryRecentActivity)}</p>
+							<p class="text-[var(--content-meta)] text-sm">最近活动</p>
 							<p class="text-2xl font-bold text-[var(--deep-text)] dark:text-white">3</p>
 						</div>
 						<Icon name="material-symbols:trending-up" class="w-8 h-8 text-[var(--primary)]" />

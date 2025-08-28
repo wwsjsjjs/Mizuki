@@ -1,18 +1,22 @@
 ---
+// 导入必要的类型和组件
 import type { MarkdownHeading } from "astro";
+import type { WidgetComponentConfig } from "../../types/config";
 import { widgetManager } from "../../utils/widget-manager";
-import Profile from "./Profile.astro";
 import Announcement from "./Announcement.astro";
 import Categories from "./Categories.astro";
+import MusicPlayer from "./MusicPlayer.svelte";
+import Profile from "./Profile.astro";
 import Tags from "./Tags.astro";
 import TOC from "./TOC.astro";
-import MusicPlayer from "./MusicPlayer.svelte";
 
+// 定义组件属性接口
 interface Props {
 	class?: string;
 	headings?: MarkdownHeading[];
 }
 
+// 解构属性
 const { class: className, headings } = Astro.props;
 
 // 获取配置的组件列表
@@ -30,25 +34,31 @@ const componentMap = {
 };
 
 // 渲染组件的辅助函数
-function renderComponent(component: any, index: number, components: any[]) {
-	const ComponentToRender = componentMap[component.type as keyof typeof componentMap];
+function renderComponent(
+	component: WidgetComponentConfig,
+	index: number,
+	_components: WidgetComponentConfig[],
+) {
+	const ComponentToRender =
+		componentMap[component.type as keyof typeof componentMap];
 	if (!ComponentToRender) return null;
-	
+
 	const componentClass = widgetManager.getComponentClass(component, index);
 	const componentStyle = widgetManager.getComponentStyle(component, index);
-	
+
 	return {
 		Component: ComponentToRender,
 		props: {
 			class: componentClass,
 			style: componentStyle,
-			headings: component.type === 'toc' ? headings : undefined,
+			headings: component.type === "toc" ? headings : undefined,
 			...component.customProps,
-		}
+		},
 	};
 }
 ---
 
+// 主容器
 <div id="sidebar" class:list={[className, "w-full"]}>
 	<!-- 顶部固定组件区域 -->
 	{topComponents.length > 0 && (
@@ -102,7 +112,7 @@ function renderComponent(component: any, index: number, components: any[]) {
 <script>
 	import { widgetManager } from "../../utils/widget-manager";
 	
-	// 响应式布局管理
+	// 响应式布局管理类
 	class SidebarManager {
 		constructor() {
 			this.init();

@@ -59,14 +59,14 @@ function formatTime(dateString: string): string {
 				<div class="moments-timeline">
 					<div class="timeline-list space-y-4">
 						{moments.map(moment => (
-							<div class="moment-item card-base p-4 md:p-6 lg:p-8 hover:shadow-lg transition-all" key={moment.id}>
+							<div class="moment-item card-base p-4 md:p-6 lg:p-8 hover:shadow-lg transition-all">
 								<div class="moment-content">
 									<p class="moment-text text-sm md:text-base lg:text-lg text-90 leading-relaxed mb-3 md:mb-4">{moment.content}</p>
 									
 									{moment.images && moment.images.length > 0 && (
 				<div class="moment-images grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4 mb-3 md:mb-4">
 					{moment.images.map((image, index) => (
-						<div class="image-item relative rounded-md overflow-hidden aspect-square cursor-pointer hover:scale-105 transition-transform" key={index}>
+						<div class="image-item relative rounded-md overflow-hidden aspect-square cursor-pointer hover:scale-105 transition-transform">
 							<ImageWrapper 
 								src={image} 
 								alt={i18n(I18nKey.diaryImage)}

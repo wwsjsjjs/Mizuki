@@ -6,6 +6,7 @@ export const ja: Translation = {
 	[Key.about]: "私たちについて",
 	[Key.archive]: "Archive",
 	[Key.search]: "検索",
+	[Key.other]: "その他",
 
 	[Key.tags]: "タグ",
 	[Key.categories]: "カテゴリ",
@@ -52,7 +53,7 @@ export const ja: Translation = {
 	[Key.animeStatusWatching]: "視聴中",
 	[Key.animeStatusCompleted]: "視聴済み",
 
-	// 短文页面
+	// 短文ページ
 	[Key.diarySubtitle]: "いつでもどこでも、生活をシェア",
 	[Key.diaryCount]: "件のつぶやき",
 	[Key.diaryImage]: "画像",
@@ -71,6 +72,27 @@ export const ja: Translation = {
 
 	// 音楽プレーヤー
 	[Key.playlist]: "プレイリスト",
+
+	// Gallery
+	[Key.gallery]: "ギャラリー",
+	[Key.gallerySubtitle]: "画像コレクション",
+	[Key.galleryGroups]: "グループ",
+	[Key.galleryCreateGroup]: "グループ作成",
+	[Key.galleryGroupName]: "グループ名",
+	[Key.galleryGroupDescription]: "説明",
+	[Key.galleryGroupCover]: "カバー画像",
+	[Key.galleryUploadImages]: "画像アップロード",
+	[Key.galleryImageCount]: "枚の画像",
+	[Key.galleryImagesCount]: "枚の画像",
+	[Key.galleryViewAll]: "すべて表示",
+	[Key.galleryEdit]: "編集",
+	[Key.galleryDelete]: "削除",
+	[Key.gallerySort]: "並び替え",
+	[Key.galleryComments]: "コメント",
+	[Key.galleryAddComment]: "コメント追加",
+	[Key.galleryNoGroups]: "グループがありません",
+	[Key.galleryNoImages]: "画像がありません",
+	[Key.galleryCreateFirst]: "最初のグループを作成",
 
 	// プロジェクトページ
 	[Key.projects]: "プロジェクト",

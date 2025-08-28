@@ -140,9 +140,13 @@ function initSemifullScrollDetection() {
         const threshold = 50; // 滚动阈值，可以根据需要调整
         
         if (scrollTop > threshold) {
-            navbar.classList.add('scrolled');
+            if (navbar) {
+                navbar.classList.add('scrolled');
+            }
         } else {
-            navbar.classList.remove('scrolled');
+            if (navbar) {
+                navbar.classList.remove('scrolled');
+            }
         }
         
         ticking = false;

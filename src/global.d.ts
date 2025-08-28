@@ -1,10 +1,10 @@
 declare global {
 	interface HTMLElementTagNameMap {
-		'table-of-contents': HTMLElement & {
+		"table-of-contents": HTMLElement & {
 			init?: () => void;
 		};
 	}
-	
+
 	interface Window {
 		// Define swup type directly since @swup/astro doesn't export AstroIntegration
 		swup: any;
@@ -16,11 +16,14 @@ declare global {
 			}>;
 		};
 		translate?: {
+			changeLanguage: (language: string) => void;
 			service: {
 				use: (service: string) => void;
 			};
 			language: {
 				setLocal: (language: string) => void;
+				getCurrent: () => string;
+				getLocal: () => string;
 			};
 			setAutoDiscriminateLocalLanguage: () => void;
 			ignore: {
@@ -29,16 +32,25 @@ declare global {
 			};
 			selectLanguageTag: {
 				show: boolean;
-			};
-			storage: {
-				set: () => void;
+				refreshRender?: () => void;
 			};
 			listener: {
 				start: () => void;
 			};
 			execute: () => void;
+			to: string;
+			storage: {
+				set: (key: string, value: string) => void;
+			};
 		};
 		mobileTOCInit?: () => void;
+		galleryManager?: GalleryManager;
+		iconifyLoaded?: boolean;
+		semifullScrollHandler?: any;
+		initSemifullScrollDetection?: any;
+		closeAnnouncement?: any;
+		__iconifyLoader?: any;
+		loadTranslateScript?: () => Promise<void>;
 	}
 }
 
@@ -67,3 +79,13 @@ interface SearchResult {
 	raw_url?: string;
 	sub_results?: SearchResult[];
 }
+
+interface GalleryManager {
+	isInitialized: boolean;
+	clickHandler: ((e: Event) => void) | null;
+	init(): void;
+	cleanup(): void;
+	handleClick(e: Event): void;
+}
+
+export {};

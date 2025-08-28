@@ -209,7 +209,7 @@ const bannerOffset =
 
 		<!-- Sakura Effect -->
 		{(widgetConfigs.sakura as SakuraConfig)?.enable && (
-			<script define:vars={{ sakuraConfig: widgetConfigs.sakura }}>
+			<script is:inline define:vars={{ sakuraConfig: widgetConfigs.sakura }}>
 				// 樱花对象类
 				class Sakura {
 					constructor(x, y, s, r, fn, idx, img, limitArray, config) {
@@ -325,13 +325,13 @@ const bannerOffset =
 							break;
 						case 'fnx':
 							random = config.speed.horizontal.min + Math.random() * (config.speed.horizontal.max - config.speed.horizontal.min);
-							ret = function (x, y) {
+							ret = function (x) {
 								return x + random;
 							};
 							break;
 						case 'fny':
 							random = config.speed.vertical.min + Math.random() * (config.speed.vertical.max - config.speed.vertical.min);
-							ret = function (x, y) {
+							ret = function (y) {
 								return y + random;
 							};
 							break;
@@ -974,13 +974,13 @@ function initTranslate() {
 	// 设置忽略的类名和标签
 	if (siteConfig.translate.ignoreClasses && window.translate) {
 		siteConfig.translate.ignoreClasses.forEach(className => {
-			window.translate.ignore.class.push(className);
+			(window.translate as NonNullable<typeof window.translate>).ignore.class.push(className);
 		});
 	}
 	
 	if (siteConfig.translate.ignoreTags && window.translate) {
 		siteConfig.translate.ignoreTags.forEach(tagName => {
-			window.translate.ignore.tag.push(tagName);
+			(window.translate as NonNullable<typeof window.translate>).ignore.tag.push(tagName);
 		});
 	}
 	
@@ -1008,7 +1008,9 @@ async function loadAndInitTranslate() {
 	if (!siteConfig.translate?.enable) return;
 	
 	try {
-		await window.loadTranslateScript();
+		if (window.loadTranslateScript) {
+			await window.loadTranslateScript();
+		}
 		initTranslate();
 	} catch (error) {
 		console.error('Failed to load translate.js:', error);
@@ -1063,14 +1065,14 @@ const setup = () => {
 		const tocElement = document.querySelector('table-of-contents');
 		if (tocElement && typeof tocElement.init === 'function') {
 			setTimeout(() => {
-				tocElement.init();
+				(tocElement.init as () => void)();
 			}, 100);
 		}
 		
 		// 重新初始化移动端 TOC 组件
 		if (typeof window.mobileTOCInit === 'function') {
 			setTimeout(() => {
-				window.mobileTOCInit();
+				(window.mobileTOCInit as () => void)();
 			}, 100);
 		}
 		
@@ -1347,6 +1349,11 @@ if (window.swup) {
 <script>
 // 全局相册功能 - 重构版本
 class GalleryManager {
+	/** @type {boolean} */
+	isInitialized;
+	/** @type {((e: Event) => void) | null} */
+	clickHandler;
+
 	constructor() {
 		this.isInitialized = false;
 		this.clickHandler = null;
@@ -1394,7 +1401,7 @@ class GalleryManager {
 		}
 	}
 
-	toggleGallery(header) {
+	toggleGallery(header: HTMLElement) {
 		const group = header.closest('.gallery-group');
 		const content = group.querySelector('.gallery-content');
 		const icon = header.querySelector('.expand-icon');
@@ -1412,7 +1419,7 @@ class GalleryManager {
 		}
 	}
 
-	showImageModal(imageSrc) {
+	showImageModal(imageSrc: string) {
 		// 创建模态框元素
 		const modal = document.createElement('div');
 		modal.className = 'gallery-modal fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4';
@@ -1460,7 +1467,7 @@ class GalleryManager {
 			}, 300);
 		};
 		
-		const handleEsc = (e) => {
+		const handleEsc = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') closeModal();
 		};
 		
@@ -1479,7 +1486,9 @@ window.galleryManager = new GalleryManager();
 
 // 相册初始化函数
 const initGallery = () => {
-	window.galleryManager.init();
+	if (window.galleryManager) {
+		window.galleryManager.init();
+	}
 };
 
 // Swup集成
@@ -1494,7 +1503,9 @@ const setupGalleryWithSwup = () => {
 		
 		window.swup.hooks.on("content:replace", () => {
 			// 页面内容替换前清理
-			window.galleryManager.cleanup();
+			if (window.galleryManager) {
+				window.galleryManager.cleanup();
+			}
 		}, { before: true });
 	}
 };

@@ -631,7 +631,6 @@ import {
 	BANNER_HEIGHT,
 	BANNER_HEIGHT_HOME,
 	BANNER_HEIGHT_EXTEND,
-	MAIN_PANEL_OVERLAPS_BANNER_HEIGHT
 } from "../constants/constants";
 import { siteConfig } from '../config';
 
@@ -816,7 +815,7 @@ function initCarousel() {
 	// Check if carousel is disabled but we have multiple images - show random image
 	if (validItems.length > 1 && !siteConfig.banner.carousel?.enable) {
 		// Hide all images first
-		carouselItems.forEach((item, index) => {
+			carouselItems.forEach((item, _) => {
 			item.classList.add('opacity-0', 'scale-110');
 			item.classList.remove('opacity-100', 'scale-100');
 		});
@@ -833,7 +832,7 @@ function initCarousel() {
 	if (validItems.length > 1 && siteConfig.banner.carousel?.enable) {
 		let currentIndex = 0;
 		const interval = siteConfig.banner.carousel?.interval || 6;
-		let carouselInterval;
+		let carouselInterval: ReturnType<typeof setInterval> | undefined;
 		let isPaused = false;
 
 		// 移动端触摸手势支持
@@ -843,7 +842,7 @@ function initCarousel() {
 		const carousel = document.getElementById('banner-carousel');
 
 		// 切换图片的函数 - 基于有效项目
-		function switchToSlide(index) {
+		function switchToSlide(index: number) {
 			// 隐藏当前图片
 			const currentItem = validItems[currentIndex];
 			currentItem.classList.remove('opacity-100', 'scale-100');
@@ -1004,7 +1003,7 @@ function initTranslate() {
 }
 
 // 懒加载并初始化翻译功能
-async function loadAndInitTranslate() {
+async function loadAndInitTranslate(): Promise<void> {
 	if (!siteConfig.translate?.enable) return;
 	
 	try {
@@ -1349,10 +1348,8 @@ if (window.swup) {
 <script>
 // 全局相册功能 - 重构版本
 class GalleryManager {
-	/** @type {boolean} */
-	isInitialized;
-	/** @type {((e: Event) => void) | null} */
-	clickHandler;
+		isInitialized: boolean;
+		clickHandler: ((e: Event) => void) | null;
 
 	constructor() {
 		this.isInitialized = false;
@@ -1368,7 +1365,7 @@ class GalleryManager {
 		this.cleanup();
 
 		// 创建新的点击处理器
-		this.clickHandler = (e) => this.handleClick(e);
+			this.clickHandler = (e: Event) => this.handleClick(e);
 		document.addEventListener('click', this.clickHandler);
 		this.isInitialized = true;
 	}
@@ -1381,41 +1378,45 @@ class GalleryManager {
 		this.isInitialized = false;
 	}
 
-	handleClick(e) {
-		// 处理相册头部点击（展开/折叠）
-		const galleryHeader = e.target.closest('.gallery-header');
-		if (galleryHeader) {
-			e.preventDefault();
-			this.toggleGallery(galleryHeader);
-			return;
-		}
+		   handleClick(e: Event) {
+			   const target = e.target as Element | null;
+			   if (!target) return;
+			   // 处理相册头部点击（展开/折叠）
+			   const galleryHeader = target.closest('.gallery-header');
+			   if (galleryHeader) {
+				   e.preventDefault();
+				   this.toggleGallery(galleryHeader as HTMLElement);
+				   return;
+			   }
 
-		// 处理图片点击（查看大图）
-		const galleryImage = e.target.closest('.gallery-image');
-		if (galleryImage) {
-			e.preventDefault();
-			const imageSrc = galleryImage.getAttribute('data-image');
-			if (imageSrc) {
-				this.showImageModal(imageSrc);
-			}
-		}
-	}
+			   // 处理图片点击（查看大图）
+			   const galleryImage = target.closest('.gallery-image');
+			   if (galleryImage) {
+				   e.preventDefault();
+				   const imageSrc = galleryImage.getAttribute('data-image');
+				   if (imageSrc) {
+					   this.showImageModal(imageSrc);
+				   }
+			   }
+		   }
 
 	toggleGallery(header: HTMLElement) {
 		const group = header.closest('.gallery-group');
+		if (!group) return;
 		const content = group.querySelector('.gallery-content');
+		if (!content) return;
 		const icon = header.querySelector('.expand-icon');
 
 		if (content.classList.contains('hidden')) {
 			// 展开
 			content.classList.remove('hidden');
 			group.classList.add('expanded');
-			if (icon) icon.style.transform = 'rotate(180deg)';
+			if (icon) (icon as HTMLElement).style.transform = 'rotate(180deg)';
 		} else {
 			// 折叠
 			content.classList.add('hidden');
 			group.classList.remove('expanded');
-			if (icon) icon.style.transform = 'rotate(0deg)';
+			if (icon) (icon as HTMLElement).style.transform = 'rotate(0deg)';
 		}
 	}
 

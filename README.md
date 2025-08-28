@@ -12,16 +12,6 @@
 [**🖥️ 在线演示**](https://mizuki.mysqil.com/)
 [**📝 用户文档**](https://docs.mizuki.mysqil.com/)
 
-🌏 README 语言
-[**中文**](./README.md) /
-[**English**](./README.en.md) /
-[**日本語**](./docs/README.ja.md) /
-[**한국어**](./docs/README.ko.md) /
-[**Français**](./docs/README.fr.md) /
-[**Deutsch**](./docs/README.de.md) /
-[**Español**](./docs/README.es.md) /
-[**Русский**](./docs/README.ru.md)
-
 ## 🆕 v4.0 版本更新
 - **全屏背景图片功能：** 新增非Banner模式下的全屏背景图片支持，提供沉浸式的视觉体验。支持轮播切换、透明度调节和模糊效果配置。
 - **资源路径优化：** 修复了Banner模式和全屏壁纸模式下的图片资源调用问题，确保能正确从public目录获取资源。

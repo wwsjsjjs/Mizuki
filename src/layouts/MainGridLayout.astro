@@ -88,7 +88,6 @@ const mobileNonHomeBannerClass = !isHomePage ? "mobile-hide-banner" : "";
 const mainPanelTop = siteConfig.banner.enable
 	? `calc(${BANNER_HEIGHT}vh - ${MAIN_PANEL_OVERLAPS_BANNER_HEIGHT}rem)`
 	: "5.5rem";
-const mobileNonHomeMainTop = !isHomePage ? "5.5rem" : mainPanelTop;
 
 // 当banner被禁用时，主内容区域应该始终从顶栏下面开始
 const finalMainPanelTop = siteConfig.banner.enable ? mainPanelTop : "5.5rem";

@@ -43,7 +43,7 @@ function renderComponent(
 		componentMap[component.type as keyof typeof componentMap];
 	if (!ComponentToRender) return null;
 
-	const componentClass = widgetManager.getComponentClass(component, index);
+	const componentClass = widgetManager.getComponentClass(component);
 	const componentStyle = widgetManager.getComponentStyle(component, index);
 
 	return {
@@ -58,7 +58,7 @@ function renderComponent(
 }
 ---
 
-// 主容器
+<!-- 主容器 -->
 <div id="sidebar" class:list={[className, "w-full"]}>
 	<!-- 顶部固定组件区域 -->
 	{topComponents.length > 0 && (
